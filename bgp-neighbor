@@ -12,11 +12,11 @@ neighbor 172.16.2.2 {
 
 ==================================================================================================
 
-# show policy-options community ROUTE-META 
-members 58485:32943
+# show policy-options community ROUTE-META | display set 
+set policy-options community ROUTE-META members 58485:32943
 
-# show policy-options community ROUTE-HELIUM  
-members 58485:102
+# show policy-options community ROUTE-HELIUM | display set 
+set policy-options community ROUTE-HELIUM members 58485:102
 
 ==================================================================================================
 
