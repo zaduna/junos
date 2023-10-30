@@ -1,0 +1,5 @@
+# show snmp | display set 
+set snmp location "IDC 3D, Jakarta, Indonesia"
+set snmp contact "noc@wifian.id"
+set snmp community xwifi authorization read-only
+set snmp community xwifi clients 172.16.10.2/32
