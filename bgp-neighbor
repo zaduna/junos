@@ -1,0 +1,85 @@
+# show protocols bgp group META 
+type external;
+import META-IN;
+export META-OUT;
+peer-as 32934;
+neighbor 172.16.1.2 {
+    local-address 172.16.1.1;
+}
+neighbor 172.16.2.2 {
+    local-address 172.16.2.1;
+}
+
+==================================================================================================
+
+# show policy-options community ROUTE-META 
+members 58485:32943
+
+# show policy-options community ROUTE-HELIUM  
+members 58485:102
+
+==================================================================================================
+
+# show policy-options policy-statement META-IN 
+term ACCEPT {
+    then {
+        local-preference 300;
+        community add ROUTE-META;
+        accept;
+    }
+}
+term REJECT {
+    then reject;
+}
+
+# show policy-options policy-statement META-OUT   
+term ACCEPT {
+    from {
+        route-filter 103.247.20.0/22 prefix-length-range /22-/24;
+    }
+    then accept;
+}
+term HELIUM {
+    from community ROUTE-HELIUM;
+    then accept;
+}
+term REJECT {
+    then reject;
+}
+
+==================================================================================================
+
+# show policy-options policy-statement UPSTREAM-OUT      
+term ACCEPT {
+    from {
+        route-filter 103.247.20.0/22 prefix-length-range /22-/24;
+    }
+    then {
+        as-path-prepend "58485 58485 58485";
+        accept;
+    }
+}
+term REJECT {
+    then reject;
+}
+
+==================================================================================================
+
+# show policy-options policy-statement EXCHANGE-IN     
+term RFC1918 {
+    from {
+        route-filter 10.0.0.0/8 prefix-length-range /8-/32;
+        route-filter 172.16.0.0/12 prefix-length-range /12-/32;
+        route-filter 192.168.0.0/16 prefix-length-range /16-/32;
+        route-filter 0.0.0.0/0 exact;
+        route-filter 8.8.8.8/32 exact;
+        route-filter 8.8.8.0/24 exact;
+    }
+    then reject;
+}
+term ACCEPT {
+    then accept;
+}
+term REJECT {
+    then reject;
+}
