@@ -1,2 +1,4 @@
+~~~ SAVE CONFIGURATION TO SERVER BACKUP ~~~
+
 set system archival configuration transfer-on-commit
 set system archival configuration archive-sites "scp://user:password@ipserverbackup:/home/user/"
